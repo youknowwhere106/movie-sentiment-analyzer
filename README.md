@@ -1,13 +1,5 @@
 # 🎬 Movie Sentiment Analyzer
 
-## 🔹 Problem Statement
-
-This project addresses the challenge of automatically analyzing the sentiment of movie reviews to understand audience opinions and feedback. Movie studios, critics, and consumers often need to quickly gauge public sentiment from large volumes of reviews across different platforms. Manually reading and categorizing thousands of reviews is time-consuming and subjective.
-
-To solve this, the project implements an AI-powered sentiment analysis system that classifies movie reviews as **positive**, **negative**, or **neutral**, providing **confidence scores** and detailed explanations for each classification.
-
----
-
 ## 🔹 Why AI-Powered Sentiment Analysis?
 
 Unlike basic keyword matching, this system combines multiple approaches for accurate sentiment detection:
