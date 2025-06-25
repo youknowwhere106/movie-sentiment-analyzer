@@ -118,9 +118,6 @@ cd frontend
 # Install dependencies
 npm install
 
-# Create environment file
-echo "REACT_APP_API_URL=http://localhost:5000/api" > .env
-
 # Start development server
 npm start
 ```
