@@ -1,4 +1,4 @@
- const Review = require('../models/Review');
+ const Review = process.env.USE_DATABASE === 'true' ? require('../models/Review') : null;
 const RuleBasedSentiment = require('../services/ruleBased');
 const GeminiService = require('../services/geminiService');
 
@@ -32,13 +32,19 @@ const analyzeSentiment = async (req, res) => {
       analysis = ruleBasedAnalyzer.analyze(reviewText);
     }
 
-    const savedReview = await Review.create({
-      reviewText: reviewText.trim(),
-      sentiment: analysis.sentiment,
-      confidence: analysis.confidence,
-      explanation: analysis.explanation,
-      analysisMethod
-    });
+    if (process.env.USE_DATABASE === 'true' && Review) {
+      try {
+        savedReview = await Review.create({
+          reviewText: reviewText.trim(),
+          sentiment: analysis.sentiment,
+          confidence: analysis.confidence,
+          explanation: analysis.explanation,
+          analysisMethod
+        });
+      } catch (dbError) {
+        console.error('Database save failed:', dbError);
+      }
+    }
 
     res.json({
       id: savedReview.id,
