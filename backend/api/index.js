@@ -3,37 +3,32 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
 
-const sentimentRoutes = require('../routes/sentiment');
-const { initDatabase } = require('../config/database');
+const sentimentRoutes = require('./routes/sentiment');
+const { initDatabase } = require('./config/database');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Initialize DB
-initDatabase()
-  .then(() => console.log('✅ Database initialized'))
-  .catch((err) => console.error('❌ Database init failed', err));
-
-// Health and root endpoints
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Movie Sentiment Analyzer API',
-    status: 'running',
-    timestamp: new Date().toISOString()
-  });
-});
+app.use('/api/sentiment', sentimentRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.use('/sentiment', sentimentRoutes);
+const startServer = async () => {
+  try {
+    await initDatabase();
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
 
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end();
-});
-
-module.exports = app;
+startServer();
