@@ -1,4 +1,4 @@
- const Review = require('../models/Review');
+const Review = require('../models/Review');
 const RuleBasedSentiment = require('../services/ruleBased');
 const GeminiService = require('../services/geminiService');
 
@@ -70,6 +70,3 @@ module.exports = {
   analyzeSentiment,
   getReviews
 };
-
-
-
