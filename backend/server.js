@@ -21,7 +21,10 @@ app.get('/health', (req, res) => {
 
 const startServer = async () => {
   try {
-    await initDatabase();
+    if (process.env.NODE_ENV !== 'production') {
+      await initDatabase();
+    }
+    
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
