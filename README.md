@@ -102,7 +102,16 @@ npm install
 # Create environment file
 cp .env.example .env
 
-# Add your database credentials and Gemini API key
+# Add your database credentials and Gemini API key in below format
+PORT=
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+GEMINI_API_KEY=
+NODE_ENV=development
+
 
 # Start development server
 npm run dev
