@@ -12,7 +12,7 @@ const api = axios.create({
 
 export const analyzeSentiment = async (reviewText, useGemini = false) => {
   try {
-    const response = await api.post('/sentiment/analyze', {
+    const response = await api.post('/api/sentiment/analyze', {
       reviewText,
       useGemini
     });
