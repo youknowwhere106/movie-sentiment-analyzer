@@ -1,12 +1,12 @@
 
 const { Pool } = require('pg');
-console.log('📦 Using DB connection:', process.env.SUPABASE_DB_URL ? 'Supabase' : 'Localhost');
+console.log('📦 Using DB connection:', process.env.SUPABASE_URL ? 'Supabase' : 'Localhost');
 
 
 
-const pool = process.env.SUPABASE_DB_URL
+const pool = process.env.SUPABASE_URL
   ? new Pool({
-      connectionString: process.env.SUPABASE_DB_URL,
+      connectionString: process.env.SUPABASE_URL,
       ssl: { rejectUnauthorized: false },
     })
   : new Pool({
