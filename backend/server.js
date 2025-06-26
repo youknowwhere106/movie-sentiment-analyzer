@@ -18,16 +18,10 @@ app.use('/api/sentiment', sentimentRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end();
-});
 
 const startServer = async () => {
   try {
-    if (process.env.NODE_ENV !== 'production') {
-      await initDatabase();
-    }
-    
+    await initDatabase();
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
