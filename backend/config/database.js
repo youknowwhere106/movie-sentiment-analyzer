@@ -1,9 +1,7 @@
 const { Pool } = require('pg');
 
-const isProd = process.env.NODE_ENV === 'production';
 
-// Use Supabase connection string if available
-const pool = isProd
+const pool = process.env.SUPABASE_DB_URL
   ? new Pool({
       connectionString: process.env.SUPABASE_DB_URL,
       ssl: { rejectUnauthorized: false },
@@ -15,6 +13,8 @@ const pool = isProd
       password: process.env.DB_PASSWORD || 'password',
       port: process.env.DB_PORT || 5432,
     });
+
+module.exports = { pool };
 
 const initDatabase = async () => {
   try {
