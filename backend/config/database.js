@@ -1,4 +1,7 @@
+
 const { Pool } = require('pg');
+console.log('📦 Using DB connection:', process.env.SUPABASE_DB_URL ? 'Supabase' : 'Localhost');
+
 
 
 const pool = process.env.SUPABASE_DB_URL
@@ -14,7 +17,6 @@ const pool = process.env.SUPABASE_DB_URL
       port: process.env.DB_PORT || 5432,
     });
 
-module.exports = { pool };
 
 const initDatabase = async () => {
   try {
