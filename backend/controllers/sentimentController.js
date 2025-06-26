@@ -1,4 +1,4 @@
- const Review = process.env.USE_DATABASE === 'true' ? require('../models/Review') : null;
+ const Review = require('../models/Review');
 const RuleBasedSentiment = require('../services/ruleBased');
 const GeminiService = require('../services/geminiService');
 
@@ -31,31 +31,24 @@ const analyzeSentiment = async (req, res) => {
     } else {
       analysis = ruleBasedAnalyzer.analyze(reviewText);
     }
-    let savedReview = null;
 
-    if (process.env.USE_DATABASE === 'true' && Review) {
-      try {
-        savedReview = await Review.create({
-          reviewText: reviewText.trim(),
-          sentiment: analysis.sentiment,
-          confidence: analysis.confidence,
-          explanation: analysis.explanation,
-          analysisMethod
-        });
-      } catch (dbError) {
-        console.error('Database save failed:', dbError);
-      }
-    }
+    const savedReview = await Review.create({
+      reviewText: reviewText.trim(),
+      sentiment: analysis.sentiment,
+      confidence: analysis.confidence,
+      explanation: analysis.explanation,
+      analysisMethod
+    });
 
     res.json({
-      id: savedReview ? savedReview.id : Date.now(),
+      id: savedReview.id,
       sentiment: analysis.sentiment,
       confidence: analysis.confidence,
       explanation: analysis.explanation,
       analysisMethod,
-      timestamp: savedReview ? savedReview.created_at : new Date().toISOString()
+      timestamp: savedReview.created_at
     });
-   
+
   } catch (error) {
     console.error('Sentiment analysis error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -77,4 +70,6 @@ module.exports = {
   analyzeSentiment,
   getReviews
 };
+
+
 
