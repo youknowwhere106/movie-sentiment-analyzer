@@ -4,7 +4,7 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 const sentimentRoutes = require('../routes/sentiment');
-const database = process.env.USE_DATABASE === 'true' ? require('./config/database') : null;
+const { initDatabase } = require('./config/database');
 
 const app = express();
 
