@@ -12,7 +12,12 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
+// Initialize DB
+initDatabase()
+  .then(() => console.log('✅ Database initialized'))
+  .catch((err) => console.error('❌ Database init failed', err));
 
+// Health and root endpoints
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Movie Sentiment Analyzer API',
@@ -21,18 +26,14 @@ app.get('/', (req, res) => {
   });
 });
 
-
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-
 app.use('/sentiment', sentimentRoutes);
-
 
 app.get('/favicon.ico', (req, res) => {
   res.status(204).end();
 });
-
 
 module.exports = app;
