@@ -1,22 +1,12 @@
-
 const { Pool } = require('pg');
-console.log('📦 Using DB connection:', process.env.SUPABASE_URL ? 'Supabase' : 'Localhost');
 
-
-
-const pool = process.env.SUPABASE_URL
-  ? new Pool({
-      connectionString: process.env.SUPABASE_URL,
-      ssl: { rejectUnauthorized: false },
-    })
-  : new Pool({
-      user: process.env.DB_USER || 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      database: process.env.DB_NAME || 'sentiment_db',
-      password: process.env.DB_PASSWORD || 'password',
-      port: process.env.DB_PORT || 5432,
-    });
-
+const pool = new Pool({
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || 'sentiment_db',
+  password: process.env.DB_PASSWORD || 'password',
+  port: process.env.DB_PORT || 5432,
+});
 
 const initDatabase = async () => {
   try {
