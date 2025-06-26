@@ -31,6 +31,7 @@ const analyzeSentiment = async (req, res) => {
     } else {
       analysis = ruleBasedAnalyzer.analyze(reviewText);
     }
+    let savedReview = null;
 
     if (process.env.USE_DATABASE === 'true' && Review) {
       try {
@@ -47,14 +48,14 @@ const analyzeSentiment = async (req, res) => {
     }
 
     res.json({
-      id: savedReview.id,
+      id: savedReview ? savedReview.id : Date.now(),
       sentiment: analysis.sentiment,
       confidence: analysis.confidence,
       explanation: analysis.explanation,
       analysisMethod,
-      timestamp: savedReview.created_at
+      timestamp: savedReview ? savedReview.created_at : new Date().toISOString()
     });
-
+   
   } catch (error) {
     console.error('Sentiment analysis error:', error);
     res.status(500).json({ error: 'Internal server error' });
